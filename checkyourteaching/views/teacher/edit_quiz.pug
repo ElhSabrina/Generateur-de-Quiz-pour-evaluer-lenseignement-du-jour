@@ -1,0 +1,52 @@
+//- views/teacher/edit_quiz.pug
+extends ../layout
+
+block content
+  h1 Edit quiz – #{quiz.title}
+  .grid-two
+    .card
+      h3 Quiz info
+      p.small-text Code:
+      p.code-big= quiz.code
+      p.small-text Status: #{quiz.status}
+      if quiz.status === 'draft'
+        form(method="post" action=`/teacher/quizzes/${quiz.id}/open`)
+          button.btn-primary(type="submit") Open quiz for students
+    .card
+      h3 Questions
+      if questions && questions.length
+        each q in questions
+          .question-block
+            h4= q.text
+            ul.small-text
+              li A: #{q.option_a}
+              li B: #{q.option_b}
+              li C: #{q.option_c}
+              li D: #{q.option_d}
+              li Correct: #{q.correct_option}
+            form.inline(method="post" action=`/teacher/questions/${q.id}/delete`)
+              input(type="hidden" name="quiz_id" value=quiz.id)
+              button.btn-small.btn-danger(type="submit") Delete
+      else
+        p.small-text No questions yet.
+
+  .card
+    h3 Add a new question
+    form(method="post" action=`/teacher/quizzes/${quiz.id}/questions`)
+      label Question text
+      textarea(name="text" rows="2" required)
+      label Option A
+      input(type="text" name="option_a" required)
+      label Option B
+      input(type="text" name="option_b" required)
+      label Option C
+      input(type="text" name="option_c" required)
+      label Option D
+      input(type="text" name="option_d" required)
+      label Correct option
+      select(name="correct_option" required)
+        option(value="A") A
+        option(value="B") B
+        option(value="C") C
+        option(value="D") D
+      button.btn-primary(type="submit") Add question
