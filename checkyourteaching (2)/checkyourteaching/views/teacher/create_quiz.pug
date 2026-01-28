@@ -1,0 +1,35 @@
+//- views/teacher/create_quiz.pug
+extends ../layout
+
+block content
+  h1 Create a new quiz
+  .card
+    form(method="post" action="/teacher/quizzes" enctype="multipart/form-data")
+      label Subject
+      select(name="subject_id" required)
+        option(value="" disabled selected) Choose a subject
+        each s in subjects
+          option(value=s.id)= s.name
+
+      label(for="title") Quiz title
+      input(type="text" name="title" required)
+
+      label Creation mode
+      .radio-row
+        label
+          input(type="radio" name="mode" value="ai" checked)
+          |  AI – generate from course content
+        label
+          input(type="radio" name="mode" value="manual")
+          |  Manual – I will create the questions
+
+      .ai-block
+        p.small-text
+          | In AI mode, you can paste your course text or upload a plain text file (.txt), or both.
+        label(for="course_text") Paste your course text (optional)
+        textarea(name="course_text" rows="5" placeholder="Paste the content of your lesson here...")
+
+        label(for="course_file") Or upload a .txt file (optional)
+        input(type="file" name="course_file" accept=".txt,text/plain")
+
+      button.btn-primary(type="submit") Create quiz

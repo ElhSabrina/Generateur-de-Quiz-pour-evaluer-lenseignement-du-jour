@@ -1,0 +1,13 @@
+//- views/student/wait_closed.pug
+extends ../layout
+
+block content
+  h1 Waiting for correction
+
+  .card
+    p.small-text
+      | The quiz "#{quiz.title}" is still open.
+      br
+      | Your teacher has not closed the quiz yet.
+    p.small-text
+      | Once the quiz is closed, you will be able to see your score and the full correction.
